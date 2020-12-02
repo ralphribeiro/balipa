@@ -6,7 +6,6 @@
 - Postgres
 - SqlAlchemy with Alembic for migrations
 - Pytest for backend tests
-- Jest for frontend tests
 - Perttier/Eslint (with Airbnb style guide)
 - Docker compose for easier development
 <!-- - Nginx as a reverse proxy to allow backend and frontend on the same port -->
@@ -14,6 +13,7 @@
 ## Development
 
 The only dependencies for this project should be docker and docker-compose.
+
 
 ### Quick Start
 
@@ -72,7 +72,7 @@ And fill in `upgrade` and `downgrade` methods. For more information see
 
 ## Testing
 
-There is a helper script for both frontend and backend tests:
+There is a helper script for backend tests:
 
 ```
 ./scripts/test.sh
@@ -86,7 +86,6 @@ docker-compose run backend pytest
 
 any arguments to pytest can also be passed after this command
 
-This is the same as running npm test from within the frontend directory
 
 ## Logging
 
