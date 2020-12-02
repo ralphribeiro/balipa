@@ -96,7 +96,7 @@ docker-compose logs
 Or for a specific service:
 
 ```
-docker-compose logs -f name_of_service # frontend|backend|db
+docker-compose logs -f name_of_service # backend|db
 ```
 
 ## Project Layout
