@@ -129,14 +129,15 @@ def get_locals(db: Session, skip: int = 0, limit: int = 100
     return db.query(models.Local).offset(skip).limit(limit).all()
 
 
-def create_local(db: Session, local: schemas.LocalCreate, local_id: int):
-    db_local = models.Item(
+def create_local(db: Session, local: schemas.LocalCreate):
+    db_local = models.Local(
         volume=local.volume,
         coordinate=local.coordinate
     )
     db.add(db_local)
     db.commit()
     db.refresh(db_local)
+    return db_local
 
 
 def delete_local(db: Session, local_id: int):
@@ -146,7 +147,7 @@ def delete_local(db: Session, local_id: int):
     return local
 
 
-def edit_local(db: Session, local_id: int, local: schemas.Local
+def edit_local(db: Session, local_id: int, local: schemas.LocalCreate
                ) -> schemas.Local:
     db_local = get_local(db, local_id)
     update_data = local.dict(exclude_unset=True)

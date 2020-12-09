@@ -83,10 +83,11 @@ class LocalBase(BaseModel):
 
 
 class LocalCreate(LocalBase):
-    id: int
+    ...
 
 
 class Local(LocalBase):
+    id: int
     items: list[Item] = []
 
     class Config:
