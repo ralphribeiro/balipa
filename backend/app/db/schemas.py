@@ -1,5 +1,7 @@
+from decimal import Decimal
+from typing import Optional
+
 from pydantic import BaseModel
-import typing as t
 from pydantic.networks import EmailStr
 
 
@@ -14,7 +16,7 @@ class UserBase(BaseModel):
 class UserAdmin(UserBase):
     id: int = None
     is_superuser: bool = False
-    password: t.Optional[str] = None
+    password: Optional[str] = None
 
     class Config:
         orm_mode = True
@@ -33,7 +35,7 @@ class UserCreate(UserBase):
 
 
 class UserEdit(UserBase):
-    password: t.Optional[str] = None
+    password: Optional[str] = None
 
     class Config:
         orm_mode = True
@@ -54,3 +56,38 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     email: str = None
     permissions: str = "user"
+
+
+class ItemBase(BaseModel):
+    name: str
+    description: Optional[str] = None
+    volume: int
+    price: Optional[Decimal] = None
+
+
+class ItemCreate(ItemBase):
+    pass
+
+
+class Item(ItemBase):
+    id: int
+    local_id: int
+
+    class Config:
+        orm_mode = True
+
+
+class LocalBase(BaseModel):
+    volume: int
+    coordinate: str
+
+
+class LocalCreate(LocalBase):
+    id: int
+
+
+class Local(LocalBase):
+    items: list[Item] = []
+
+    class Config:
+        orm_mode = True
