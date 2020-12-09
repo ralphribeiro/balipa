@@ -69,3 +69,92 @@ def edit_user(
     db.commit()
     db.refresh(db_user)
     return db_user
+
+
+def get_item(db: Session, item_id: int):
+    item = db.query(models.Item).filter(models.Item.id == item_id).first()
+    if not item:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return item
+
+
+def get_items(db: Session, skip: int = 0, limit: int = 100
+              ) -> list[schemas.Item]:
+    return db.query(models.Item).offset(skip).limit(limit).all()
+
+
+def create_item(db: Session, item: schemas.ItemCreate, local_id: int):
+    db_item = models.Item(
+        name=item.name,
+        description=item.description,
+        volume=item.volume,
+        price=item.price,
+        local_id=local_id
+    )
+    db.add(db_item)
+    db.commit()
+    db.refresh(db_item)
+
+
+def delete_item(db: Session, item_id: int):
+    item = get_item(db, item_id)
+    db.delete(item)
+    db.commit()
+    return item
+
+
+def edit_item(db: Session, item_id: int, item: schemas.Item
+              ) -> schemas.Item:
+    db_item = get_item(db, item_id)
+    update_data = item.dict(exclude_unset=True)
+
+    for k, v in update_data.items():
+        setattr(db_item, k, v)
+
+    db.add(db_item)
+    db.commit()
+    db.refresh(db_item)
+    return db_item
+
+
+def get_local(db: Session, local_id: int):
+    local = db.query(models.Local).filter(models.Local.id == local_id).first()
+    if not local:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return local
+
+
+def get_locals(db: Session, skip: int = 0, limit: int = 100
+               ) -> list[schemas.Local]:
+    return db.query(models.Local).offset(skip).limit(limit).all()
+
+
+def create_local(db: Session, local: schemas.LocalCreate, local_id: int):
+    db_local = models.Item(
+        volume=local.volume,
+        coordinate=local.coordinate
+    )
+    db.add(db_local)
+    db.commit()
+    db.refresh(db_local)
+
+
+def delete_local(db: Session, local_id: int):
+    local = get_local(db, local_id)
+    db.delete(local)
+    db.commit()
+    return local
+
+
+def edit_local(db: Session, local_id: int, local: schemas.Local
+               ) -> schemas.Local:
+    db_local = get_local(db, local_id)
+    update_data = local.dict(exclude_unset=True)
+
+    for k, v in update_data.items():
+        setattr(db_local, k, v)
+
+    db.add(db_local)
+    db.commit()
+    db.refresh(db_local)
+    return db_local
