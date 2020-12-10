@@ -83,13 +83,13 @@ def get_items(db: Session, skip: int = 0, limit: int = 100
     return db.query(models.Item).offset(skip).limit(limit).all()
 
 
-def create_item(db: Session, item: schemas.ItemCreate, local_id: int):
+def create_item(db: Session, item: schemas.ItemCreate):
     db_item = models.Item(
         name=item.name,
         description=item.description,
         volume=item.volume,
         price=item.price,
-        local_id=local_id
+        local_id=item.local_id
     )
     db.add(db_item)
     db.commit()
@@ -103,7 +103,7 @@ def delete_item(db: Session, item_id: int):
     return item
 
 
-def edit_item(db: Session, item_id: int, item: schemas.Item
+def edit_item(db: Session, item_id: int, item: schemas.ItemCreate
               ) -> schemas.Item:
     db_item = get_item(db, item_id)
     update_data = item.dict(exclude_unset=True)

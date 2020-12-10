@@ -5,6 +5,7 @@ import uvicorn
 from app.api.api_v1.routers.users import users_router
 from app.api.api_v1.routers.auth import auth_router
 from app.api.api_v1.routers.locals import locals_router
+from app.api.api_v1.routers.items import items_router
 from app.core import config
 from app.db.session import SessionLocal
 from app.core.auth import get_current_active_user
@@ -51,6 +52,7 @@ app.include_router(
 app.include_router(auth_router, prefix="/api", tags=["auth"])
 
 app.include_router(locals_router, prefix=API_VERSION, tags=["locals"])
+app.include_router(items_router, prefix=API_VERSION, tags=["items"])
 
 
 @app.get("/itens/{item_id}")

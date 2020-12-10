@@ -2,7 +2,6 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
-from app.db import models
 from app.db.crud import (
     get_local,
     get_locals,
@@ -10,7 +9,7 @@ from app.db.crud import (
     edit_local,
     delete_local
 )
-from app.db.schemas import LocalCreate, LocalBase, Local
+from app.db.schemas import LocalCreate, Local
 
 locals_router = r = APIRouter()
 

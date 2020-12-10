@@ -63,6 +63,7 @@ class ItemBase(BaseModel):
     description: Optional[str] = None
     volume: int
     price: Optional[Decimal] = None
+    local_id: int
 
 
 class ItemCreate(ItemBase):
@@ -71,7 +72,6 @@ class ItemCreate(ItemBase):
 
 class Item(ItemBase):
     id: int
-    local_id: int
 
     class Config:
         orm_mode = True
